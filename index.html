@@ -5,19 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Maktab Test Sayti</title>
 <style>
-    body { font-family: Arial, sans-serif; background: #f0f8ff; margin: 0; padding: 0; }
-    .container { max-width: 600px; margin: 50px auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-    h1, h2, h3 { text-align: center; }
-    button { padding: 10px 20px; margin: 5px; border-radius: 8px; border: none; background: #007bff; color: #fff; cursor: pointer; }
-    button:hover { background: #0056b3; }
-    input { padding: 8px; width: 100%; margin: 5px 0; border-radius: 6px; border: 1px solid #ccc; }
-    .hidden { display: none; }
-    .menu { text-align: center; }
+    body { font-family: Arial, sans-serif; margin:0; padding:0; background: linear-gradient(to bottom, #a1c4fd, #c2e9fb); }
+    .container { max-width: 500px; margin: 50px auto; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+    h1,h2,h3 { text-align: center; color: #333; }
+    input { width: 100%; padding: 10px; margin: 8px 0; border-radius: 10px; border: 1px solid #ccc; }
+    button { padding: 10px 20px; margin:5px; border:none; border-radius:12px; background:#4CAF50; color:#fff; cursor:pointer; font-size:16px; transition: 0.3s; }
+    button:hover { background:#45a049; }
+    .hidden { display:none; }
+    .menu { text-align:center; }
+    #questionContainer button { display:block; width:100%; margin:5px 0; }
+    @media(max-width:600px){ .container{margin:20px;} button{font-size:14px;} }
 </style>
 </head>
 <body>
 
-<!-- Kirish oynasi -->
 <div class="container" id="loginScreen">
     <h1>Saytga Xush Kelibsiz!</h1>
     <input type="text" id="firstName" placeholder="Ismingiz">
@@ -25,7 +26,6 @@
     <button onclick="enterSite()">Kirish</button>
 </div>
 
-<!-- Sinflar ro'yxati -->
 <div class="container hidden" id="classScreen">
     <h2>Salom, <span id="userName"></span>!</h2>
     <h3>Sinfni tanlang:</h3>
@@ -33,84 +33,152 @@
     <button onclick="goBack('loginScreen','classScreen')">Ortga</button>
 </div>
 
-<!-- Fanlar menyusi -->
 <div class="container hidden" id="subjectScreen">
     <h3><span id="currentClass"></span> sinf fanlari:</h3>
     <div id="subjectButtons" class="menu"></div>
     <button onclick="goBack('classScreen','subjectScreen')">Ortga</button>
 </div>
 
-<!-- Mavzular ro'yxati -->
 <div class="container hidden" id="topicScreen">
     <h3><span id="currentSubject"></span> fani mavzulari:</h3>
     <div id="topicButtons" class="menu"></div>
     <button onclick="goBack('subjectScreen','topicScreen')">Ortga</button>
 </div>
 
+<div class="container hidden" id="testScreen">
+    <h3 id="currentTopic">Mavzu 1</h3>
+    <div id="questionContainer"></div>
+    <button onclick="nextQuestion()">Keyingi savol</button>
+    <button onclick="goBack('topicScreen','testScreen')">Ortga</button>
+</div>
+
+<div class="container hidden" id="resultScreen">
+    <h2>Test natijasi</h2>
+    <p id="score"></p>
+    <button onclick="goBack('topicScreen','resultScreen')">Ortga</button>
+</div>
+
 <script>
-// Sinflar, fanlar va mavzular
 const classes = ["5-sinf","6-sinf","7-sinf","8-sinf","9-sinf","10-sinf","11-sinf"];
 const subjects = ["Matematika","Fizika","Kimyo","Biologiya","Geografiya","Tarix","Ingliz tili"];
-const topics = Array.from({length: 10}, (_, i) => "Mavzu " + (i+1));
+const topics = Array.from({length:10}, (_,i)=>"Mavzu "+(i+1));
 
-// Kirish funksiyasi
-function enterSite() {
-    const firstName = document.getElementById('firstName').value.trim();
-    const lastName = document.getElementById('lastName').value.trim();
-    if(!firstName || !lastName) { alert("Iltimos ism va familiyangizni kiriting."); return; }
-    document.getElementById('userName').textContent = firstName + " " + lastName;
+function generateTests(){
+    let obj={};
+    classes.forEach(cls=>{
+        obj[cls]={};
+        subjects.forEach(sub=>{
+            obj[cls][sub]={};
+            topics.forEach(tp=>{
+                obj[cls][sub][tp]=[];
+                for(let i=1;i<=10;i++){
+                    obj[cls][sub][tp].push({question:`${tp} - Savol ${i}?`, options:["A","B","C","D"], answer:Math.floor(Math.random()*4)});
+                }
+            });
+        });
+    });
+    return obj;
+}
+const allTests=generateTests();
+
+let currentClass="", currentSubject="", currentTopic="";
+let currentTests=[], currentIndex=0, score=0;
+
+function enterSite(){
+    const firstName=document.getElementById('firstName').value.trim();
+    const lastName=document.getElementById('lastName').value.trim();
+    if(!firstName || !lastName){ alert("Iltimos ism va familiyangizni kiriting."); return; }
+    document.getElementById('userName').textContent=firstName+" "+lastName;
     document.getElementById('loginScreen').classList.add('hidden');
     showClasses();
 }
 
-// Sinflarni ko'rsatish
-function showClasses() {
-    const classButtons = document.getElementById('classButtons');
-    classButtons.innerHTML = '';
-    classes.forEach(cls => {
-        const btn = document.createElement('button');
-        btn.textContent = cls;
-        btn.onclick = () => showSubjects(cls);
+function showClasses(){
+    const classButtons=document.getElementById('classButtons');
+    classButtons.innerHTML='';
+    classes.forEach(cls=>{
+        const btn=document.createElement('button');
+        btn.textContent=cls;
+        btn.onclick=()=>showSubjects(cls);
         classButtons.appendChild(btn);
     });
     document.getElementById('classScreen').classList.remove('hidden');
 }
 
-// Fanlarni ko'rsatish
-function showSubjects(cls) {
-    document.getElementById('currentClass').textContent = cls;
-    const subjectButtons = document.getElementById('subjectButtons');
-    subjectButtons.innerHTML = '';
-    subjects.forEach(sub => {
-        const btn = document.createElement('button');
-        btn.textContent = sub;
-        btn.onclick = () => showTopics(sub);
+function showSubjects(cls){
+    currentClass=cls;
+    document.getElementById('currentClass').textContent=cls;
+    const subjectButtons=document.getElementById('subjectButtons');
+    subjectButtons.innerHTML='';
+    subjects.forEach(sub=>{
+        const btn=document.createElement('button');
+        btn.textContent=sub;
+        btn.onclick=()=>showTopics(sub);
         subjectButtons.appendChild(btn);
     });
     document.getElementById('classScreen').classList.add('hidden');
     document.getElementById('subjectScreen').classList.remove('hidden');
 }
 
-// Mavzularni ko'rsatish
-function showTopics(sub) {
-    document.getElementById('currentSubject').textContent = sub;
-    const topicButtons = document.getElementById('topicButtons');
-    topicButtons.innerHTML = '';
-    topics.forEach(tp => {
-        const btn = document.createElement('button');
-        btn.textContent = tp;
+function showTopics(sub){
+    currentSubject=sub;
+    document.getElementById('currentSubject').textContent=sub;
+    const topicButtons=document.getElementById('topicButtons');
+    topicButtons.innerHTML='';
+    topics.forEach(tp=>{
+        const btn=document.createElement('button');
+        btn.textContent=tp;
+        btn.onclick=()=>startTest(currentClass,currentSubject,tp);
         topicButtons.appendChild(btn);
     });
     document.getElementById('subjectScreen').classList.add('hidden');
     document.getElementById('topicScreen').classList.remove('hidden');
 }
 
-// Ortga qaytish funksiyasi
-function goBack(showId, hideId) {
+function startTest(cls,sub,tp){
+    currentTopic=tp;
+    currentTests=allTests[cls][sub][tp];
+    currentIndex=0; score=0;
+    document.getElementById('currentTopic').textContent=tp;
+    document.getElementById('topicScreen').classList.add('hidden');
+    document.getElementById('testScreen').classList.remove('hidden');
+    showTest();
+}
+
+function showTest(){
+    const container=document.getElementById('questionContainer');
+    container.innerHTML='';
+    const q=currentTests[currentIndex];
+    const qElem=document.createElement('p'); qElem.textContent=q.question;
+    container.appendChild(qElem);
+    q.options.forEach((opt,i)=>{
+        const btn=document.createElement('button');
+        btn.textContent=opt;
+        btn.onclick=()=>checkAnswer(i);
+        container.appendChild(btn);
+    });
+}
+
+function checkAnswer(i){
+    if(i===currentTests[currentIndex].answer){ alert("To'g'ri!"); score++; }
+    else alert("Noto'g'ri!");
+}
+
+function nextQuestion(){
+    currentIndex++;
+    if(currentIndex>=currentTests.length){
+        document.getElementById('testScreen').classList.add('hidden');
+        document.getElementById('resultScreen').classList.remove('hidden');
+        document.getElementById('score').textContent=`Siz ${currentTests.length} savoldan ${score} ta to'g'ri javob berdingiz.`;
+        return;
+    }
+    showTest();
+}
+
+function goBack(showId,hideId){
     document.getElementById(hideId).classList.add('hidden');
     document.getElementById(showId).classList.remove('hidden');
 }
 </script>
-
 </body>
 </html>
