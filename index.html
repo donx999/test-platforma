@@ -2,66 +2,123 @@
 <html lang="uz">
 <head>
   <meta charset="UTF-8">
-  <title>Maktab Test Platformasi</title>
+  <title>Test Platforma</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; background: #f9f9f9; }
-    h1 { text-align: center; color: #2b6cb0; }
-    .question { margin: 20px 0; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-    button { margin-top: 20px; padding: 10px 18px; background: #2b6cb0; color: white; border: none; border-radius: 6px; cursor: pointer; }
-    button:hover { background: #1a4c80; }
-    #result { font-weight: bold; font-size: 18px; margin-top: 20px; color: green; }
+    body { font-family: Arial, sans-serif; background: #f2f2f2; margin: 0; padding: 0; text-align: center;}
+    .container { width: 90%; max-width: 500px; margin: 40px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+    input, button { width: 90%; padding: 10px; margin: 10px 0; border-radius: 6px; border: 1px solid #ccc; font-size: 16px;}
+    button { background: #4CAF50; color: white; border: none; cursor: pointer;}
+    button:hover { background: #45a049;}
+    .hidden { display: none;}
+    .menu button { width: 100%; background: #2196F3;}
+    .menu button:hover { background: #0b7dda;}
+    .question { text-align: left; margin: 15px 0;}
   </style>
 </head>
 <body>
-  <h1>📚 Maktab Test Platformasi</h1>
 
-  <div id="quiz"></div>
-  <button onclick="submitQuiz()">Natijani ko‘rish</button>
+  <!-- Ro‘yxatdan o‘tish -->
+  <div class="container" id="registerForm">
+    <h2>Ro'yxatdan o'tish</h2>
+    <input type="text" id="fullname" placeholder="Ism Familiya" required>
+    <button onclick="register()">Kirish</button>
+  </div>
 
-  <p id="result"></p>
+  <!-- Menyu -->
+  <div class="container hidden" id="menu">
+    <h2>Xush kelibsiz, <span id="username"></span>!</h2>
+    <p>Test bo'limini tanlang:</p>
+    <div class="menu">
+      <button onclick="startTest('5-sinf')">5-sinf testlari</button>
+      <button onclick="startTest('6-sinf')">6-sinf testlari</button>
+      <button onclick="startTest('7-sinf')">7-sinf testlari</button>
+      <button onclick="startTest('aralash')">Aralash testlar</button>
+    </div>
+  </div>
+
+  <!-- Test oynasi -->
+  <div class="container hidden" id="testArea">
+    <h2 id="testTitle"></h2>
+    <form id="quizForm"></form>
+    <button onclick="submitTest()">Natijani ko‘rish</button>
+  </div>
+
+  <!-- Natija -->
+  <div class="container hidden" id="resultArea">
+    <h2>Natijangiz:</h2>
+    <p id="resultText"></p>
+    <button onclick="backToMenu()">Orqaga qaytish</button>
+  </div>
 
   <script>
-    const questions = [
-      {
-        question: "5 + 7 = ?",
-        answers: ["10", "12", "14", "15"],
-        correct: "12"
-      },
-      {
-        question: "O‘zbekiston poytaxti qaysi?",
-        answers: ["Samarqand", "Toshkent", "Buxoro", "Xiva"],
-        correct: "Toshkent"
-      },
-      {
-        question: "Yerning sun’iy yo‘ldoshi nima?",
-        answers: ["Oy", "Quyosh", "Mars", "Saturn"],
-        correct: "Oy"
-      }
-    ];
+    let tests = {};
+    let currentTest = [];
+    let username = "";
 
-    const quizDiv = document.getElementById("quiz");
+    // JSON fayldan savollarni yuklash
+    fetch("tests.json")
+      .then(response => response.json())
+      .then(data => { tests = data; })
+      .catch(err => alert("Test faylini yuklab bo‘lmadi!"));
 
-    questions.forEach((q, i) => {
-      let div = document.createElement("div");
-      div.classList.add("question");
-      div.innerHTML = `<h3>${i+1}. ${q.question}</h3>` +
-        q.answers.map(a =>
-          `<label><input type="radio" name="q${i}" value="${a}"> ${a}</label><br>`
-        ).join("");
-      quizDiv.appendChild(div);
-    });
+    function register() {
+      const name = document.getElementById("fullname").value;
+      if (name.trim() === "") { alert("Ism va familiya kiriting!"); return; }
+      localStorage.setItem("username", name);
+      username = name;
+      document.getElementById("registerForm").classList.add("hidden");
+      document.getElementById("menu").classList.remove("hidden");
+      document.getElementById("username").innerText = name;
+    }
 
-    function submitQuiz() {
+    function startTest(type) {
+      currentTest = tests[type];
+      document.getElementById("menu").classList.add("hidden");
+      document.getElementById("testArea").classList.remove("hidden");
+      document.getElementById("testTitle").innerText = type + " savollari";
+
+      const quizForm = document.getElementById("quizForm");
+      quizForm.innerHTML = "";
+      currentTest.forEach((item, index) => {
+        let qDiv = document.createElement("div");
+        qDiv.className = "question";
+        qDiv.innerHTML = `<p>${index+1}. ${item.q}</p>`;
+        item.options.forEach(opt => {
+          qDiv.innerHTML += `<label><input type="radio" name="q${index}" value="${opt}"> ${opt}</label><br>`;
+        });
+        quizForm.appendChild(qDiv);
+      });
+    }
+
+    function submitTest() {
       let score = 0;
-      questions.forEach((q, i) => {
-        let selected = document.querySelector(`input[name="q${i}"]:checked`);
-        if (selected && selected.value === q.correct) {
+      currentTest.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected && selected.value === item.answer) {
           score++;
         }
       });
-      document.getElementById("result").innerText =
-        `✅ Sizning natijangiz: ${score} / ${questions.length}`;
+      document.getElementById("testArea").classList.add("hidden");
+      document.getElementById("resultArea").classList.remove("hidden");
+      document.getElementById("resultText").innerText = `${username}, siz ${currentTest.length} ta savoldan ${score} tasiga to‘g‘ri javob berdingiz.`;
     }
+
+    function backToMenu() {
+      document.getElementById("resultArea").classList.add("hidden");
+      document.getElementById("menu").classList.remove("hidden");
+    }
+
+    // Avtomatik ismni tiklash
+    window.onload = () => {
+      const savedName = localStorage.getItem("username");
+      if (savedName) {
+        username = savedName;
+        document.getElementById("registerForm").classList.add("hidden");
+        document.getElementById("menu").classList.remove("hidden");
+        document.getElementById("username").innerText = savedName;
+      }
+    };
   </script>
+
 </body>
 </html>
