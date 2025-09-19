@@ -1,21 +1,33 @@
 {
-  "5-sinf": [
-    { "q": "O‘zbekiston poytaxti qaysi?", "options": ["Toshkent", "Samarqand", "Buxoro"], "answer": "Toshkent" },
-    { "q": "1 km nechaga teng?", "options": ["100 m", "1000 m", "10000 m"], "answer": "1000 m" },
-    { "q": "Kompyuterning asosiy xotirasi?", "options": ["RAM", "HDD", "SSD"], "answer": "RAM" }
-  ],
-  "6-sinf": [
-    { "q": "Yerning sun’iy yo‘ldoshi nima?", "options": ["Oy", "Quyosh", "Mars"], "answer": "Oy" },
-    { "q": "Suvning kimyoviy formulasi?", "options": ["H2O", "CO2", "O2"], "answer": "H2O" },
-    { "q": "Fotosintez qaysi organlarda sodir bo‘ladi?", "options": ["Ildiz", "Barg", "Poya"], "answer": "Barg" }
-  ],
-  "7-sinf": [
-    { "q": "Elektr toki kuchi qanday belgilanadi?", "options": ["I", "U", "R"], "answer": "I" },
-    { "q": "Avogadro soni qanchaga teng?", "options": ["6.02×10^23", "3.14", "9.8"], "answer": "6.02×10^23" }
-  ],
-  "aralash": [
-    { "q": "Eng katta materik?", "options": ["Yevrosiyo", "Afrika", "Amerika"], "answer": "Yevrosiyo" },
-    { "q": "Kompyuterning miyasi deb nimaga aytiladi?", "options": ["Protsessor", "Monitor", "Klavitura"], "answer": "Protsessor" },
-    { "q": "Quyosh tizimidagi eng katta sayyora?", "options": ["Yer", "Yupiter", "Saturn"], "answer": "Yupiter" }
-  ]
+  "5-sinf": {
+    "Matematika": {
+      "1": [
+        {
+          "savol": "2 + 2 = ?",
+          "javoblar": ["3", "4", "5"],
+          "togrisi": 1
+        }
+      ]
+    },
+    "Ona tili": {
+      "1": [
+        {
+          "savol": "So‘z turini aniqlang: 'kitob'",
+          "javoblar": ["Ot", "Fe’l", "Sifat"],
+          "togrisi": 0
+        }
+      ]
+    }
+  },
+  "6-sinf": {
+    "Fizika": {
+      "1": [
+        {
+          "savol": "Tezlik formulasi qaysi?",
+          "javoblar": ["v = S ÷ t", "S = v × t", "F = m × a"],
+          "togrisi": 0
+        }
+      ]
+    }
+  }
 }
