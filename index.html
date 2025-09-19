@@ -2,123 +2,196 @@
 <html lang="uz">
 <head>
   <meta charset="UTF-8">
-  <title>Test Platforma</title>
+  <title>Test Platformasi</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f2f2f2; margin: 0; padding: 0; text-align: center;}
-    .container { width: 90%; max-width: 500px; margin: 40px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
-    input, button { width: 90%; padding: 10px; margin: 10px 0; border-radius: 6px; border: 1px solid #ccc; font-size: 16px;}
-    button { background: #4CAF50; color: white; border: none; cursor: pointer;}
-    button:hover { background: #45a049;}
-    .hidden { display: none;}
-    .menu button { width: 100%; background: #2196F3;}
-    .menu button:hover { background: #0b7dda;}
-    .question { text-align: left; margin: 15px 0;}
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(120deg, #4facfe, #00f2fe);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 600px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+    h1, h2, h3 {
+      color: #333;
+    }
+    input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      margin: 8px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #4facfe;
+      color: white;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #00c3ff;
+    }
+    .back {
+      background: #ff4b5c;
+    }
+    .back:hover {
+      background: #e8434e;
+    }
+    .answers button {
+      display: block;
+      margin: 8px auto;
+      width: 80%;
+      background: #6a11cb;
+    }
+    .answers button:hover {
+      background: #2575fc;
+    }
   </style>
 </head>
 <body>
-
-  <!-- Ro‘yxatdan o‘tish -->
-  <div class="container" id="registerForm">
-    <h2>Ro'yxatdan o'tish</h2>
-    <input type="text" id="fullname" placeholder="Ism Familiya" required>
-    <button onclick="register()">Kirish</button>
-  </div>
-
-  <!-- Menyu -->
-  <div class="container hidden" id="menu">
-    <h2>Xush kelibsiz, <span id="username"></span>!</h2>
-    <p>Test bo'limini tanlang:</p>
-    <div class="menu">
-      <button onclick="startTest('5-sinf')">5-sinf testlari</button>
-      <button onclick="startTest('6-sinf')">6-sinf testlari</button>
-      <button onclick="startTest('7-sinf')">7-sinf testlari</button>
-      <button onclick="startTest('aralash')">Aralash testlar</button>
-    </div>
-  </div>
-
-  <!-- Test oynasi -->
-  <div class="container hidden" id="testArea">
-    <h2 id="testTitle"></h2>
-    <form id="quizForm"></form>
-    <button onclick="submitTest()">Natijani ko‘rish</button>
-  </div>
-
-  <!-- Natija -->
-  <div class="container hidden" id="resultArea">
-    <h2>Natijangiz:</h2>
-    <p id="resultText"></p>
-    <button onclick="backToMenu()">Orqaga qaytish</button>
+  <div class="card">
+    <h1>📚 Test Platformasi</h1>
+    <div id="app"></div>
   </div>
 
   <script>
-    let tests = {};
+    let testsData = {};
+    let user = { name: "", sinf: "", fan: "", mavzu: "" };
     let currentTest = [];
-    let username = "";
+    let currentIndex = 0;
+    let score = 0;
 
-    // JSON fayldan savollarni yuklash
-    fetch("tests.json")
-      .then(response => response.json())
-      .then(data => { tests = data; })
-      .catch(err => alert("Test faylini yuklab bo‘lmadi!"));
-
-    function register() {
-      const name = document.getElementById("fullname").value;
-      if (name.trim() === "") { alert("Ism va familiya kiriting!"); return; }
-      localStorage.setItem("username", name);
-      username = name;
-      document.getElementById("registerForm").classList.add("hidden");
-      document.getElementById("menu").classList.remove("hidden");
-      document.getElementById("username").innerText = name;
+    async function loadTests() {
+      const res = await fetch("tests.json");
+      testsData = await res.json();
+      showLogin();
     }
 
-    function startTest(type) {
-      currentTest = tests[type];
-      document.getElementById("menu").classList.add("hidden");
-      document.getElementById("testArea").classList.remove("hidden");
-      document.getElementById("testTitle").innerText = type + " savollari";
-
-      const quizForm = document.getElementById("quizForm");
-      quizForm.innerHTML = "";
-      currentTest.forEach((item, index) => {
-        let qDiv = document.createElement("div");
-        qDiv.className = "question";
-        qDiv.innerHTML = `<p>${index+1}. ${item.q}</p>`;
-        item.options.forEach(opt => {
-          qDiv.innerHTML += `<label><input type="radio" name="q${index}" value="${opt}"> ${opt}</label><br>`;
-        });
-        quizForm.appendChild(qDiv);
-      });
+    function showLogin() {
+      const app = document.getElementById("app");
+      app.innerHTML = `
+        <h2>Kirish</h2>
+        <input id="name" placeholder="Ism Familiya" />
+        <br>
+        <button onclick="startPlatform()">Davom etish</button>
+      `;
     }
 
-    function submitTest() {
-      let score = 0;
-      currentTest.forEach((item, index) => {
-        const selected = document.querySelector(`input[name="q${index}"]:checked`);
-        if (selected && selected.value === item.answer) {
-          score++;
-        }
-      });
-      document.getElementById("testArea").classList.add("hidden");
-      document.getElementById("resultArea").classList.remove("hidden");
-      document.getElementById("resultText").innerText = `${username}, siz ${currentTest.length} ta savoldan ${score} tasiga to‘g‘ri javob berdingiz.`;
-    }
-
-    function backToMenu() {
-      document.getElementById("resultArea").classList.add("hidden");
-      document.getElementById("menu").classList.remove("hidden");
-    }
-
-    // Avtomatik ismni tiklash
-    window.onload = () => {
-      const savedName = localStorage.getItem("username");
-      if (savedName) {
-        username = savedName;
-        document.getElementById("registerForm").classList.add("hidden");
-        document.getElementById("menu").classList.remove("hidden");
-        document.getElementById("username").innerText = savedName;
+    function startPlatform() {
+      const nameInput = document.getElementById("name").value.trim();
+      if (!nameInput) {
+        alert("Ism va familiya kiriting!");
+        return;
       }
-    };
-  </script>
+      user.name = nameInput;
+      showSinflar();
+    }
 
+    function showSinflar() {
+      const app = document.getElementById("app");
+      app.innerHTML = `<h2>Sinf tanlang</h2>`;
+      for (let sinf in testsData) {
+        const btn = document.createElement("button");
+        btn.textContent = sinf;
+        btn.onclick = () => showFanlar(sinf);
+        app.appendChild(btn);
+      }
+    }
+
+    function showFanlar(sinf) {
+      user.sinf = sinf;
+      const app = document.getElementById("app");
+      app.innerHTML = `<h2>${sinf} fanlari</h2>`;
+      for (let fan in testsData[sinf]) {
+        const btn = document.createElement("button");
+        btn.textContent = fan;
+        btn.onclick = () => showMavzular(fan);
+        app.appendChild(btn);
+      }
+      const back = document.createElement("button");
+      back.textContent = "⬅️ Ortga";
+      back.className = "back";
+      back.onclick = showSinflar;
+      app.appendChild(back);
+    }
+
+    function showMavzular(fan) {
+      user.fan = fan;
+      const app = document.getElementById("app");
+      app.innerHTML = `<h2>${user.sinf} - ${fan} mavzulari</h2>`;
+      for (let mavzu in testsData[user.sinf][fan]) {
+        const btn = document.createElement("button");
+        btn.textContent = mavzu + "-mavzu";
+        btn.onclick = () => startTest(mavzu);
+        app.appendChild(btn);
+      }
+      const back = document.createElement("button");
+      back.textContent = "⬅️ Ortga";
+      back.className = "back";
+      back.onclick = () => showFanlar(user.sinf);
+      app.appendChild(back);
+    }
+
+    function startTest(mavzu) {
+      user.mavzu = mavzu;
+      currentTest = testsData[user.sinf][user.fan][mavzu];
+      currentIndex = 0;
+      score = 0;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const app = document.getElementById("app");
+      if (currentIndex >= currentTest.length) {
+        app.innerHTML = `
+          <h2>✅ Test tugadi!</h2>
+          <p><b>${user.name}</b>, siz ${score} / ${currentTest.length} to‘g‘ri javob berdingiz.</p>
+        `;
+        const back = document.createElement("button");
+        back.textContent = "⬅️ Ortga";
+        back.className = "back";
+        back.onclick = () => showMavzular(user.fan);
+        app.appendChild(back);
+        return;
+      }
+      const q = currentTest[currentIndex];
+      app.innerHTML = `<h3>${currentIndex+1}. ${q.savol}</h3>`;
+      const answersDiv = document.createElement("div");
+      answersDiv.className = "answers";
+      q.javoblar.forEach((ans, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = ans;
+        btn.onclick = () => checkAnswer(i);
+        answersDiv.appendChild(btn);
+      });
+      app.appendChild(answersDiv);
+    }
+
+    function checkAnswer(index) {
+      if (index === currentTest[currentIndex].togrisi) {
+        score++;
+      }
+      currentIndex++;
+      showQuestion();
+    }
+
+    loadTests();
+  </script>
 </body>
 </html>
