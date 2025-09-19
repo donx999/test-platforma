@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>Maktab Test Platformasi</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f9f9f9; }
+    h1 { text-align: center; color: #2b6cb0; }
+    .question { margin: 20px 0; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    button { margin-top: 20px; padding: 10px 18px; background: #2b6cb0; color: white; border: none; border-radius: 6px; cursor: pointer; }
+    button:hover { background: #1a4c80; }
+    #result { font-weight: bold; font-size: 18px; margin-top: 20px; color: green; }
+  </style>
+</head>
+<body>
+  <h1>📚 Maktab Test Platformasi</h1>
+
+  <div id="quiz"></div>
+  <button onclick="submitQuiz()">Natijani ko‘rish</button>
+
+  <p id="result"></p>
+
+  <script>
+    const questions = [
+      {
+        question: "5 + 7 = ?",
+        answers: ["10", "12", "14", "15"],
+        correct: "12"
+      },
+      {
+        question: "O‘zbekiston poytaxti qaysi?",
+        answers: ["Samarqand", "Toshkent", "Buxoro", "Xiva"],
+        correct: "Toshkent"
+      },
+      {
+        question: "Yerning sun’iy yo‘ldoshi nima?",
+        answers: ["Oy", "Quyosh", "Mars", "Saturn"],
+        correct: "Oy"
+      }
+    ];
+
+    const quizDiv = document.getElementById("quiz");
+
+    questions.forEach((q, i) => {
+      let div = document.createElement("div");
+      div.classList.add("question");
+      div.innerHTML = `<h3>${i+1}. ${q.question}</h3>` +
+        q.answers.map(a =>
+          `<label><input type="radio" name="q${i}" value="${a}"> ${a}</label><br>`
+        ).join("");
+      quizDiv.appendChild(div);
+    });
+
+    function submitQuiz() {
+      let score = 0;
+      questions.forEach((q, i) => {
+        let selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected && selected.value === q.correct) {
+          score++;
+        }
+      });
+      document.getElementById("result").innerText =
+        `✅ Sizning natijangiz: ${score} / ${questions.length}`;
+    }
+  </script>
+</body>
+</html>
