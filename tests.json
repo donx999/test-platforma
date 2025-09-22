@@ -11,11 +11,6 @@
           "savol": "Eng uzun daryo qaysi?",
           "javoblar": ["Amudaryo", "Sirdaryo", "Nehir", "Volga"],
           "togrisi": 0
-        },
-        {
-          "savol": "Dunyoning eng katta cho‘li?",
-          "javoblar": ["Sahro", "Gobi", "Sahara", "Kalahari"],
-          "togrisi": 2
         }
       ],
       "2": [
