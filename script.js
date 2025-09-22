@@ -1,113 +1,69 @@
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f4f8;
-  height: 100vh;
-  overflow: hidden;
+// Kirish funksiyasi
+function login() {
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+
+  if (fname === '' || lname === '') {
+    alert('Iltimos, ism va familiyangizni kiriting!');
+    return;
+  }
+
+  const fullName = fname.charAt(0).toUpperCase() + fname.slice(1).toLowerCase() + ' ' +
+                   lname.charAt(0).toUpperCase() + lname.slice(1).toLowerCase();
+
+  document.getElementById('userName').innerText = fullName;
+
+  // Kirish ekranini yashirish, asosiy sahifani ko'rsatish
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'flex';
 }
 
-.centered {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #0077cc, #004a80);
-  color: white;
-  gap: 15px;
+// Test mavzularini yuklash uchun namuna funksiyalar (keyinchalik kengaytiramiz)
+function loadTopics(classNumber) {
+  const mainContent = document.getElementById('mainContent');
+  mainContent.innerHTML = `<h2>${classNumber}-sinf testlari</h2><p>Bu yerda ${classNumber}-sinf testlari ko'rsatiladi.</p>`;
+  changeDesign(classNumber);
 }
 
-.centered input {
-  padding: 10px;
-  width: 250px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: none;
-  outline: none;
+function loadMixed() {
+  const mainContent = document.getElementById('mainContent');
+  mainContent.innerHTML = `<h2>Aralash testlar</h2><p>Bu yerda aralash testlar ko'rsatiladi.</p>`;
+  changeDesign('mixed');
 }
 
-.centered button {
-  padding: 10px 30px;
-  background-color: #ffd700;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+// Dizayn o'zgarishi uchun namuna funksiya
+function changeDesign(section) {
+  const sidebar = document.querySelector('.sidebar');
+  const main = document.querySelector('.main');
 
-.centered button:hover {
-  background-color: #ffbf00;
-}
-
-/* Asosiy container va sidebar */
-
-.container {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.sidebar {
-  width: 260px;
-  background-color: #00264d;
-  color: white;
-  padding: 20px;
-  overflow-y: auto;
-}
-
-.sidebar h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
-  text-align: center;
-  border-bottom: 1px solid white;
-  padding-bottom: 10px;
-  user-select: none;
-}
-
-.menu {
-  list-style: none;
-  padding: 0;
-}
-
-.menu li {
-  padding: 10px 0;
-  cursor: pointer;
-  border-bottom: 1px dashed #aaa;
-  user-select: none;
-  transition: background-color 0.2s ease;
-}
-
-.menu li:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.main {
-  flex-grow: 1;
-  padding: 30px;
-  background-color: rgba(255, 255, 255, 0.9);
-  overflow-y: auto;
-  position: relative;
-}
-
-.test-question {
-  margin-bottom: 20px;
-  padding: 10px;
-  border-left: 5px solid #0077cc;
-  background-color: #eef5ff;
-}
-
-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #0077cc;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-}
-
-button:hover {
-  background-color: #005fa3;
+  // Misol uchun: fon ranglarini o'zgartiramiz
+  switch (section) {
+    case '7':
+      sidebar.style.backgroundColor = '#2c3e50';
+      main.style.backgroundColor = '#ecf0f1';
+      break;
+    case '8':
+      sidebar.style.backgroundColor = '#16a085';
+      main.style.backgroundColor = '#f0fff0';
+      break;
+    case '9':
+      sidebar.style.backgroundColor = '#8e44ad';
+      main.style.backgroundColor = '#f9f0ff';
+      break;
+    case '10':
+      sidebar.style.backgroundColor = '#d35400';
+      main.style.backgroundColor = '#fff5e6';
+      break;
+    case '11':
+      sidebar.style.backgroundColor = '#c0392b';
+      main.style.backgroundColor = '#ffe6e6';
+      break;
+    case 'mixed':
+      sidebar.style.backgroundColor = '#34495e';
+      main.style.backgroundColor = '#e8f0fe';
+      break;
+    default:
+      sidebar.style.backgroundColor = '#2c3e50';
+      main.style.backgroundColor = '#ecf0f1';
+  }
 }
