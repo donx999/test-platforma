@@ -1,0 +1,72 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution_gray_blue.png');
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  backdrop-filter: blur(4px);
+}
+
+.sidebar {
+  width: 260px;
+  background-color: rgba(0, 0, 50, 0.9);
+  color: white;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  border-bottom: 1px solid white;
+  padding-bottom: 10px;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  padding: 10px 0;
+  cursor: pointer;
+  border-bottom: 1px dashed #aaa;
+}
+
+.menu li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.main {
+  flex-grow: 1;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.85);
+  overflow-y: auto;
+}
+
+.test-question {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-left: 5px solid #0077cc;
+  background-color: #eef5ff;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #005fa3;
+}
