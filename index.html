@@ -19,9 +19,6 @@
       font-size: 16px;
       cursor: pointer;
     }
-    .geografiya {
-      background-color: #cceeff;
-    }
     /* Har sinf uchun alohida fon ranglari */
     .sinflar-5 { background-color: #f9f9a1; }
     .sinflar-6 { background-color: #a1f9a1; }
@@ -44,27 +41,24 @@
     }
 
     /* Tugmalar uchun umumiy uslublar */
-    button.backBtn, button.telegramBtn {
+    button.backBtn, a.telegramBtn {
       margin-top: 15px;
       padding: 10px 15px;
       font-size: 16px;
       cursor: pointer;
-      border: none;
       border-radius: 5px;
+      text-decoration: none;
+      display: inline-block;
     }
     button.backBtn {
       background-color: #f08080;
       color: white;
+      border: none;
       margin-right: 10px;
     }
-    button.telegramBtn {
+    a.telegramBtn {
       background-color: #0088cc;
       color: white;
-      text-decoration: none;
-    }
-    /* Telegram tugmasini link ko'rinishida qilish uchun */
-    a.telegramBtn {
-      display: inline-block;
     }
   </style>
 </head>
@@ -81,7 +75,9 @@
 
   <div id="menu">
     <h2 id="welcome"></h2>
-    <div class="sinflar">
+
+    <!-- Sinflar -->
+    <div id="sinflarDiv">
       <h3>Sinflarni tanlang:</h3>
       <button data-sinf="5">5-sinf</button>
       <button data-sinf="6">6-sinf</button>
@@ -92,88 +88,102 @@
       <button data-sinf="11">11-sinf</button>
     </div>
 
-    <div id="fanlar" style="margin-top:20px; display:none;">
+    <!-- Fanlar -->
+    <div id="fanlarDiv" style="display:none;">
       <h3>Fanlar:</h3>
       <button id="geografiyaBtn">Geografiya</button>
-      <div style="margin-top: 10px;">
+      <div style="margin-top: 15px;">
         <button class="backBtn" id="backToSinflar">Ortga</button>
         <a href="https://t.me/Geografiya_attestatsiya1" target="_blank" class="telegramBtn">Telegram kanalga qo‘shilish</a>
       </div>
     </div>
 
-    <div id="content" style="margin-top:20px;"></div>
-    <div id="contentNav" style="margin-top: 15px; display:none;">
-      <button class="backBtn" id="backToFanlar">Ortga</button>
-      <a href="https://t.me/Geografiya_attestatsiya1" target="_blank" class="telegramBtn">Telegram kanalga qo‘shilish</a>
+    <!-- Kontent (testlar yoki boshqa ma'lumotlar) -->
+    <div id="contentDiv" style="margin-top: 20px; display:none;">
+      <div id="contentInner"></div>
+      <div style="margin-top: 15px;">
+        <button class="backBtn" id="backToFanlar">Ortga</button>
+        <a href="https://t.me/Geografiya_attestatsiya1" target="_blank" class="telegramBtn">Telegram kanalga qo‘shilish</a>
+      </div>
     </div>
+
   </div>
 
-  <script>
-    const loginForm = document.getElementById('loginForm');
-    const loginDiv = document.getElementById('login');
-    const menuDiv = document.getElementById('menu');
-    const welcomeH2 = document.getElementById('welcome');
-    const sinflarButtons = document.querySelectorAll('.sinflar button');
-    const fanlarDiv = document.getElementById('fanlar');
-    const geografiyaBtn = document.getElementById('geografiyaBtn');
-    const contentDiv = document.getElementById('content');
-    const contentNavDiv = document.getElementById('contentNav');
-    const backToSinflarBtn = document.getElementById('backToSinflar');
-    const backToFanlarBtn = document.getElementById('backToFanlar');
+<script>
+  const loginDiv = document.getElementById('login');
+  const menuDiv = document.getElementById('menu');
+  const welcomeH2 = document.getElementById('welcome');
 
-    let tanlanganSinf = null;
+  const sinflarDiv = document.getElementById('sinflarDiv');
+  const fanlarDiv = document.getElementById('fanlarDiv');
+  const contentDiv = document.getElementById('contentDiv');
+  const contentInner = document.getElementById('contentInner');
 
-    loginForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const ism = document.getElementById('ism').value.trim();
-      const familiya = document.getElementById('familiya').value.trim();
+  const backToSinflarBtn = document.getElementById('backToSinflar');
+  const backToFanlarBtn = document.getElementById('backToFanlar');
 
-      if (ism && familiya) {
-        welcomeH2.textContent = `Xush kelibsiz, ${ism} ${familiya}!`;
-        loginDiv.style.display = 'none';
-        menuDiv.style.display = 'block';
-      }
-    });
+  const geografiyaBtn = document.getElementById('geografiyaBtn');
 
-    sinflarButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        tanlanganSinf = btn.getAttribute('data-sinf');
-        // Tanlangan sinfga mos fon rangini o'rnatamiz
-        document.body.className = '';
-        document.body.classList.add(`sinflar-${tanlanganSinf}`);
-        contentDiv.innerHTML = '';
-        contentNavDiv.style.display = 'none';
-        fanlarDiv.style.display = 'block';
-      });
-    });
+  let tanlanganSinf = null;
 
-    geografiyaBtn.addEventListener('click', () => {
-      contentDiv.innerHTML = '<h3>Geografiya fanining testlari yaqin orada qo‘shiladi.</h3>';
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const ism = document.getElementById('ism').value.trim();
+    const familiya = document.getElementById('familiya').value.trim();
+
+    if (ism && familiya) {
+      welcomeH2.textContent = `Xush kelibsiz, ${ism} ${familiya}!`;
+      loginDiv.style.display = 'none';
+      menuDiv.style.display = 'block';
+      sinflarDiv.style.display = 'block';
       fanlarDiv.style.display = 'none';
-      contentNavDiv.style.display = 'block';
-    });
-
-    backToSinflarBtn.addEventListener('click', () => {
-      fanlarDiv.style.display = 'none';
-      contentDiv.innerHTML = '';
-      contentNavDiv.style.display = 'none';
-      // Menyu sahifasidagi sinflar qismi qaytadi
-      fanlarDiv.style.display = 'none';
-      contentDiv.innerHTML = '';
-      contentNavDiv.style.display = 'none';
-      // Faqat sinflar ko‘rsatiladi
+      contentDiv.style.display = 'none';
       document.body.className = '';
-      menuDiv.querySelector('.sinflar').style.display = 'block';
-      fanlarDiv.style.display = 'none';
-      contentDiv.innerHTML = '';
-      contentNavDiv.style.display = 'none';
-    });
+    }
+  });
 
-    backToFanlarBtn.addEventListener('click', () => {
-      contentDiv.innerHTML = '';
-      contentNavDiv.style.display = 'none';
+  // Sinf tugmalari uchun listener
+  sinflarDiv.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      tanlanganSinf = btn.getAttribute('data-sinf');
+      // Fon rangini o‘zgartirish
+      document.body.className = '';
+      document.body.classList.add(`sinflar-${tanlanganSinf}`);
+
+      // Fanlar ko‘rsatish, sinflar va kontentni yashirish
+      sinflarDiv.style.display = 'none';
       fanlarDiv.style.display = 'block';
+      contentDiv.style.display = 'none';
+      contentInner.innerHTML = '';
     });
-  </script>
+  });
+
+  // Geografiya tugmasi
+  geografiyaBtn.addEventListener('click', () => {
+    // Kontentni ko‘rsatish va fanlar menyusini yashirish
+    fanlarDiv.style.display = 'none';
+    contentDiv.style.display = 'block';
+
+    // Bu yerda testlar qo‘shiladi hozircha placeholder
+    contentInner.innerHTML = '<h3>Geografiya fanining testlari tez orada qo‘shiladi.</h3>';
+  });
+
+  // Ortga tugmalari
+  backToSinflarBtn.addEventListener('click', () => {
+    fanlarDiv.style.display = 'none';
+    contentDiv.style.display = 'none';
+    sinflarDiv.style.display = 'block';
+    contentInner.innerHTML = '';
+    document.body.className = '';
+  });
+
+  backToFanlarBtn.addEventListener('click', () => {
+    contentDiv.style.display = 'none';
+    fanlarDiv.style.display = 'block';
+    contentInner.innerHTML = '';
+  });
+
+</script>
+
 </body>
 </html>
