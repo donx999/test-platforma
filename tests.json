@@ -12,7 +12,52 @@
           ],
           "togrisi": 1
         }
-        // Yana testlar shu yerda davom etadi...
+        //// Testlarni yuklash
+let testData = {};
+
+fetch('tests.json')
+  .then(response => response.json())
+  .then(data => {
+    testData = data;
+  });
+
+function loadTests(sinf, fan, mavzu) {
+  const container = document.getElementById("mainContent");
+  container.innerHTML = ""; // tozalash
+
+  const questions = testData[sinf][fan][mavzu];
+
+  questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.innerHTML = `<p><strong>${index + 1}. ${q.savol}</strong></p>`;
+
+    q.javoblar.forEach((javob, i) => {
+      const radio = `<label><input type="radio" name="q${index}" value="${i}"> ${javob}</label><br>`;
+      qDiv.innerHTML += radio;
+    });
+
+    container.appendChild(qDiv);
+  });
+
+  const button = document.createElement("button");
+  button.innerText = "Natijani tekshirish";
+  button.onclick = () => checkAnswers(questions);
+  container.appendChild(button);
+}
+
+function checkAnswers(questions) {
+  let score = 0;
+
+  questions.forEach((q, index) => {
+    const selected = document.querySelector(`input[name="q${index}"]:checked`);
+    if (selected && parseInt(selected.value) === q.togrisi) {
+      score++;
+    }
+  });
+
+  alert(`To‘g‘ri javoblar soni: ${score} / ${questions.length}`);
+}
+ Yana testlar shu yerda davom etadi...
       ]
     }
   }
