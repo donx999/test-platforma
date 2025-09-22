@@ -1,184 +1,179 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maktab Test Sayti</title>
-<style>
-    body { font-family: Arial, sans-serif; margin:0; padding:0; background: linear-gradient(to bottom, #a1c4fd, #c2e9fb); }
-    .container { max-width: 500px; margin: 50px auto; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-    h1,h2,h3 { text-align: center; color: #333; }
-    input { width: 100%; padding: 10px; margin: 8px 0; border-radius: 10px; border: 1px solid #ccc; }
-    button { padding: 10px 20px; margin:5px; border:none; border-radius:12px; background:#4CAF50; color:#fff; cursor:pointer; font-size:16px; transition: 0.3s; }
-    button:hover { background:#45a049; }
-    .hidden { display:none; }
-    .menu { text-align:center; }
-    #questionContainer button { display:block; width:100%; margin:5px 0; }
-    @media(max-width:600px){ .container{margin:20px;} button{font-size:14px;} }
-</style>
+  <meta charset="UTF-8" />
+  <title>Test Platforma</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      transition: background-color 0.5s ease;
+    }
+    #menu {
+      margin-top: 20px;
+      display: none;
+    }
+    .sinflar button {
+      margin: 5px;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .geografiya {
+      background-color: #cceeff;
+    }
+    /* Har sinf uchun alohida fon ranglari */
+    .sinflar-5 { background-color: #f9f9a1; }
+    .sinflar-6 { background-color: #a1f9a1; }
+    .sinflar-7 { background-color: #a1d8f9; }
+    .sinflar-8 { background-color: #f9a1a1; }
+    .sinflar-9 { background-color: #d6a1f9; }
+    .sinflar-10 { background-color: #f9d6a1; }
+    .sinflar-11 { background-color: #a1f9d6; }
+
+    /* Kirish formasi */
+    #loginForm input {
+      padding: 8px;
+      margin: 5px 10px 5px 0;
+      font-size: 16px;
+    }
+    #loginForm button {
+      padding: 8px 15px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* Tugmalar uchun umumiy uslublar */
+    button.backBtn, button.telegramBtn {
+      margin-top: 15px;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+    }
+    button.backBtn {
+      background-color: #f08080;
+      color: white;
+      margin-right: 10px;
+    }
+    button.telegramBtn {
+      background-color: #0088cc;
+      color: white;
+      text-decoration: none;
+    }
+    /* Telegram tugmasini link ko'rinishida qilish uchun */
+    a.telegramBtn {
+      display: inline-block;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container" id="loginScreen">
-    <h1>Saytga Xush Kelibsiz!</h1>
-    <input type="text" id="firstName" placeholder="Ismingiz">
-    <input type="text" id="lastName" placeholder="Familiyangiz">
-    <button onclick="enterSite()">Kirish</button>
-</div>
+  <div id="login">
+    <h2>Ismingiz va familiyangizni kiriting</h2>
+    <form id="loginForm">
+      <input type="text" id="ism" placeholder="Ism" required />
+      <input type="text" id="familiya" placeholder="Familiya" required />
+      <button type="submit">Kirish</button>
+    </form>
+  </div>
 
-<div class="container hidden" id="classScreen">
-    <h2>Salom, <span id="userName"></span>!</h2>
-    <h3>Sinfni tanlang:</h3>
-    <div id="classButtons" class="menu"></div>
-    <button onclick="goBack('loginScreen','classScreen')">Ortga</button>
-</div>
+  <div id="menu">
+    <h2 id="welcome"></h2>
+    <div class="sinflar">
+      <h3>Sinflarni tanlang:</h3>
+      <button data-sinf="5">5-sinf</button>
+      <button data-sinf="6">6-sinf</button>
+      <button data-sinf="7">7-sinf</button>
+      <button data-sinf="8">8-sinf</button>
+      <button data-sinf="9">9-sinf</button>
+      <button data-sinf="10">10-sinf</button>
+      <button data-sinf="11">11-sinf</button>
+    </div>
 
-<div class="container hidden" id="subjectScreen">
-    <h3><span id="currentClass"></span> sinf fanlari:</h3>
-    <div id="subjectButtons" class="menu"></div>
-    <button onclick="goBack('classScreen','subjectScreen')">Ortga</button>
-</div>
+    <div id="fanlar" style="margin-top:20px; display:none;">
+      <h3>Fanlar:</h3>
+      <button id="geografiyaBtn">Geografiya</button>
+      <div style="margin-top: 10px;">
+        <button class="backBtn" id="backToSinflar">Ortga</button>
+        <a href="https://t.me/Geografiya_attestatsiya1" target="_blank" class="telegramBtn">Telegram kanalga qo‘shilish</a>
+      </div>
+    </div>
 
-<div class="container hidden" id="topicScreen">
-    <h3><span id="currentSubject"></span> fani mavzulari:</h3>
-    <div id="topicButtons" class="menu"></div>
-    <button onclick="goBack('subjectScreen','topicScreen')">Ortga</button>
-</div>
+    <div id="content" style="margin-top:20px;"></div>
+    <div id="contentNav" style="margin-top: 15px; display:none;">
+      <button class="backBtn" id="backToFanlar">Ortga</button>
+      <a href="https://t.me/Geografiya_attestatsiya1" target="_blank" class="telegramBtn">Telegram kanalga qo‘shilish</a>
+    </div>
+  </div>
 
-<div class="container hidden" id="testScreen">
-    <h3 id="currentTopic">Mavzu 1</h3>
-    <div id="questionContainer"></div>
-    <button onclick="nextQuestion()">Keyingi savol</button>
-    <button onclick="goBack('topicScreen','testScreen')">Ortga</button>
-</div>
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const loginDiv = document.getElementById('login');
+    const menuDiv = document.getElementById('menu');
+    const welcomeH2 = document.getElementById('welcome');
+    const sinflarButtons = document.querySelectorAll('.sinflar button');
+    const fanlarDiv = document.getElementById('fanlar');
+    const geografiyaBtn = document.getElementById('geografiyaBtn');
+    const contentDiv = document.getElementById('content');
+    const contentNavDiv = document.getElementById('contentNav');
+    const backToSinflarBtn = document.getElementById('backToSinflar');
+    const backToFanlarBtn = document.getElementById('backToFanlar');
 
-<div class="container hidden" id="resultScreen">
-    <h2>Test natijasi</h2>
-    <p id="score"></p>
-    <button onclick="goBack('topicScreen','resultScreen')">Ortga</button>
-</div>
+    let tanlanganSinf = null;
 
-<script>
-const classes = ["5-sinf","6-sinf","7-sinf","8-sinf","9-sinf","10-sinf","11-sinf"];
-const subjects = ["Matematika","Fizika","Kimyo","Biologiya","Geografiya","Tarix","Ingliz tili"];
-const topics = Array.from({length:10}, (_,i)=>"Mavzu "+(i+1));
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const ism = document.getElementById('ism').value.trim();
+      const familiya = document.getElementById('familiya').value.trim();
 
-function generateTests(){
-    let obj={};
-    classes.forEach(cls=>{
-        obj[cls]={};
-        subjects.forEach(sub=>{
-            obj[cls][sub]={};
-            topics.forEach(tp=>{
-                obj[cls][sub][tp]=[];
-                for(let i=1;i<=10;i++){
-                    obj[cls][sub][tp].push({question:`${tp} - Savol ${i}?`, options:["A","B","C","D"], answer:Math.floor(Math.random()*4)});
-                }
-            });
-        });
+      if (ism && familiya) {
+        welcomeH2.textContent = `Xush kelibsiz, ${ism} ${familiya}!`;
+        loginDiv.style.display = 'none';
+        menuDiv.style.display = 'block';
+      }
     });
-    return obj;
-}
-const allTests=generateTests();
 
-let currentClass="", currentSubject="", currentTopic="";
-let currentTests=[], currentIndex=0, score=0;
-
-function enterSite(){
-    const firstName=document.getElementById('firstName').value.trim();
-    const lastName=document.getElementById('lastName').value.trim();
-    if(!firstName || !lastName){ alert("Iltimos ism va familiyangizni kiriting."); return; }
-    document.getElementById('userName').textContent=firstName+" "+lastName;
-    document.getElementById('loginScreen').classList.add('hidden');
-    showClasses();
-}
-
-function showClasses(){
-    const classButtons=document.getElementById('classButtons');
-    classButtons.innerHTML='';
-    classes.forEach(cls=>{
-        const btn=document.createElement('button');
-        btn.textContent=cls;
-        btn.onclick=()=>showSubjects(cls);
-        classButtons.appendChild(btn);
+    sinflarButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tanlanganSinf = btn.getAttribute('data-sinf');
+        // Tanlangan sinfga mos fon rangini o'rnatamiz
+        document.body.className = '';
+        document.body.classList.add(`sinflar-${tanlanganSinf}`);
+        contentDiv.innerHTML = '';
+        contentNavDiv.style.display = 'none';
+        fanlarDiv.style.display = 'block';
+      });
     });
-    document.getElementById('classScreen').classList.remove('hidden');
-}
 
-function showSubjects(cls){
-    currentClass=cls;
-    document.getElementById('currentClass').textContent=cls;
-    const subjectButtons=document.getElementById('subjectButtons');
-    subjectButtons.innerHTML='';
-    subjects.forEach(sub=>{
-        const btn=document.createElement('button');
-        btn.textContent=sub;
-        btn.onclick=()=>showTopics(sub);
-        subjectButtons.appendChild(btn);
+    geografiyaBtn.addEventListener('click', () => {
+      contentDiv.innerHTML = '<h3>Geografiya fanining testlari yaqin orada qo‘shiladi.</h3>';
+      fanlarDiv.style.display = 'none';
+      contentNavDiv.style.display = 'block';
     });
-    document.getElementById('classScreen').classList.add('hidden');
-    document.getElementById('subjectScreen').classList.remove('hidden');
-}
 
-function showTopics(sub){
-    currentSubject=sub;
-    document.getElementById('currentSubject').textContent=sub;
-    const topicButtons=document.getElementById('topicButtons');
-    topicButtons.innerHTML='';
-    topics.forEach(tp=>{
-        const btn=document.createElement('button');
-        btn.textContent=tp;
-        btn.onclick=()=>startTest(currentClass,currentSubject,tp);
-        topicButtons.appendChild(btn);
+    backToSinflarBtn.addEventListener('click', () => {
+      fanlarDiv.style.display = 'none';
+      contentDiv.innerHTML = '';
+      contentNavDiv.style.display = 'none';
+      // Menyu sahifasidagi sinflar qismi qaytadi
+      fanlarDiv.style.display = 'none';
+      contentDiv.innerHTML = '';
+      contentNavDiv.style.display = 'none';
+      // Faqat sinflar ko‘rsatiladi
+      document.body.className = '';
+      menuDiv.querySelector('.sinflar').style.display = 'block';
+      fanlarDiv.style.display = 'none';
+      contentDiv.innerHTML = '';
+      contentNavDiv.style.display = 'none';
     });
-    document.getElementById('subjectScreen').classList.add('hidden');
-    document.getElementById('topicScreen').classList.remove('hidden');
-}
 
-function startTest(cls,sub,tp){
-    currentTopic=tp;
-    currentTests=allTests[cls][sub][tp];
-    currentIndex=0; score=0;
-    document.getElementById('currentTopic').textContent=tp;
-    document.getElementById('topicScreen').classList.add('hidden');
-    document.getElementById('testScreen').classList.remove('hidden');
-    showTest();
-}
-
-function showTest(){
-    const container=document.getElementById('questionContainer');
-    container.innerHTML='';
-    const q=currentTests[currentIndex];
-    const qElem=document.createElement('p'); qElem.textContent=q.question;
-    container.appendChild(qElem);
-    q.options.forEach((opt,i)=>{
-        const btn=document.createElement('button');
-        btn.textContent=opt;
-        btn.onclick=()=>checkAnswer(i);
-        container.appendChild(btn);
+    backToFanlarBtn.addEventListener('click', () => {
+      contentDiv.innerHTML = '';
+      contentNavDiv.style.display = 'none';
+      fanlarDiv.style.display = 'block';
     });
-}
-
-function checkAnswer(i){
-    if(i===currentTests[currentIndex].answer){ alert("To'g'ri!"); score++; }
-    else alert("Noto'g'ri!");
-}
-
-function nextQuestion(){
-    currentIndex++;
-    if(currentIndex>=currentTests.length){
-        document.getElementById('testScreen').classList.add('hidden');
-        document.getElementById('resultScreen').classList.remove('hidden');
-        document.getElementById('score').textContent=`Siz ${currentTests.length} savoldan ${score} ta to'g'ri javob berdingiz.`;
-        return;
-    }
-    showTest();
-}
-
-function goBack(showId,hideId){
-    document.getElementById(hideId).classList.add('hidden');
-    document.getElementById(showId).classList.remove('hidden');
-}
-</script>
+  </script>
 </body>
 </html>
