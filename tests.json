@@ -1,31 +1,48 @@
 {
   "5-sinf": {
+    "Geografiya": {
+      "1": [
+        {
+          "savol": "O'zbekiston poytaxti qaysi shahar?",
+          "javoblar": ["Samarqand", "Toshkent", "Buxoro", "Namangan"],
+          "togrisi": 1
+        },
+        {
+          "savol": "Eng uzun daryo qaysi?",
+          "javoblar": ["Amudaryo", "Sirdaryo", "Nehir", "Volga"],
+          "togrisi": 0
+        },
+        {
+          "savol": "Dunyoning eng katta cho‘li?",
+          "javoblar": ["Sahro", "Gobi", "Sahara", "Kalahari"],
+          "togrisi": 2
+        }
+      ],
+      "2": [
+        {
+          "savol": "Dunyo qit’alarining soni nechta?",
+          "javoblar": ["5", "6", "7", "8"],
+          "togrisi": 2
+        }
+      ]
+    },
     "Matematika": {
       "1": [
         {
           "savol": "2 + 2 = ?",
-          "javoblar": ["3", "4", "5"],
+          "javoblar": ["3", "4", "5", "6"],
           "togrisi": 1
-        }
-      ]
-    },
-    "Ona tili": {
-      "1": [
-        {
-          "savol": "So‘z turini aniqlang: 'kitob'",
-          "javoblar": ["Ot", "Fe’l", "Sifat"],
-          "togrisi": 0
         }
       ]
     }
   },
   "6-sinf": {
-    "Fizika": {
+    "Geografiya": {
       "1": [
         {
-          "savol": "Tezlik formulasi qaysi?",
-          "javoblar": ["v = S ÷ t", "S = v × t", "F = m × a"],
-          "togrisi": 0
+          "savol": "Yer qaysi qatlamdan tashkil topgan?",
+          "javoblar": ["Atmosfera", "Magnetosfera", "Litosfera", "Biosfera"],
+          "togrisi": 2
         }
       ]
     }
