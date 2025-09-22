@@ -11,3 +11,18 @@
             "Tarixiy voqealarni"
           ],
           "togrisi": 1
+        },
+        {
+          "savol": "Geografiya fanining asoschisi kim?",
+          "javoblar": [
+            "Ptolemey",
+            "Eratosthen",
+            "Kopernik",
+            "Galiley"
+          ],
+          "togrisi": 1
+        }
+      ]
+    }
+  }
+}
