@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Geografiya Test Platformasi</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <!-- Chap menyu -->
+
+  <!-- Kirish formasi -->
+  <div id="loginScreen" class="centered">
+    <h2>Kirish</h2>
+    <input type="text" id="fname" placeholder="Ism" required />
+    <input type="text" id="lname" placeholder="Familiya" required />
+    <button onclick="login()">Kirish</button>
+  </div>
+
+  <!-- Asosiy platforma -->
+  <div id="mainApp" class="container" style="display:none;">
     <aside class="sidebar">
-      <h2>DONIYOR OCHILDIYEV</h2>
+      <h2 id="userName">DONIYOR OCHILDIYEV</h2>
       <ul class="menu">
         <li onclick="loadTopics('7')">7-sinf</li>
         <li onclick="loadTopics('8')">8-sinf</li>
@@ -25,10 +34,13 @@
       </ul>
     </aside>
 
-    <!-- Kontent -->
     <main class="main" id="mainContent">
       <h2>Geografik testlar platformasiga xush kelibsiz!</h2>
       <p>Chap menyudan sinfni yoki test turini tanlang.</p>
+      <!-- Bu yerga dunyo xaritasi qo'yamiz -->
+      <div id="mapContainer" style="margin-top: 20px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution_gray_blue.png" alt="Dunyo xaritasi" style="width:100%; max-height:400px; object-fit: contain; border-radius: 10px;" />
+      </div>
     </main>
   </div>
 
