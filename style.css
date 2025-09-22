@@ -1,72 +1,94 @@
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution_gray_blue.png');
-  background-size: cover;
-  background-attachment: fixed;
+let testData = {};
+
+fetch('tests.json')
+  .then(res => res.json())
+  .then(data => {
+    testData = data;
+  });
+
+function login() {
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+
+  if (fname === '' || lname === '') {
+    alert('Iltimos, ism va familiyangizni kiriting!');
+    return;
+  }
+
+  // Ism familiyani bosh harf bilan yozish uchun:
+  const fullName = fname.charAt(0).toUpperCase() + fname.slice(1).toLowerCase() + ' ' +
+                   lname.charAt(0).toUpperCase() + lname.slice(1).toLowerCase();
+
+  document.getElementById('userName').innerText = fullName;
+
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'flex';
 }
 
-.container {
-  display: flex;
-  height: 100vh;
-  backdrop-filter: blur(4px);
+function loadTopics(sinf) {
+  const main = document.getElementById('mainContent');
+  main.innerHTML = `<h2>${sinf}-sinf mavzulari</h2>`;
+
+  if (!testData[sinf]) {
+    main.innerHTML += "<p>Testlar hali qo‘shilmagan.</p>";
+    return;
+  }
+
+  const fan = "Geografiya";
+  const topics = Object.keys(testData[sinf][fan]);
+
+  topics.forEach(mavzu => {
+    const btn = document.createElement('button');
+    btn.innerText = mavzu;
+    btn.onclick = () => loadTests(sinf, fan, mavzu);
+    main.appendChild(btn);
+  });
 }
 
-.sidebar {
-  width: 260px;
-  background-color: rgba(0, 0, 50, 0.9);
-  color: white;
-  padding: 20px;
-  overflow-y: auto;
+function loadTests(sinf, fan, mavzu) {
+  const main = document.getElementById('mainContent');
+  main.innerHTML = `<h2>${mavzu}</h2>`;
+
+  const savollar = testData[sinf][fan][mavzu];
+
+  savollar.forEach((savolObj, idx) => {
+    const div = document.createElement('div');
+    div.className = 'test-question';
+
+    let html = `<p><strong>${idx + 1}. ${savolObj.savol}</strong></p>`;
+
+    savolObj.javoblar.forEach((javob, i) => {
+      html += `
+        <label>
+          <input type="radio" name="q${idx}" value="${i}">
+          ${javob}
+        </label><br>
+      `;
+    });
+
+    div.innerHTML = html;
+    main.appendChild(div);
+  });
+
+  const button = document.createElement('button');
+  button.innerText = "Natijani tekshirish";
+  button.onclick = () => tekshir(savollar);
+  main.appendChild(button);
 }
 
-.sidebar h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
-  text-align: center;
-  border-bottom: 1px solid white;
-  padding-bottom: 10px;
+function tekshir(savollar) {
+  let togrilar = 0;
+
+  savollar.forEach((savol, idx) => {
+    const tanlangan = document.querySelector(`input[name="q${idx}"]:checked`);
+    if (tanlangan && parseInt(tanlangan.value) === savol.togrisi) {
+      togrilar++;
+    }
+  });
+
+  alert(`To‘g‘ri javoblar soni: ${tog'rilar} / ${savollar.length}`);
 }
 
-.menu {
-  list-style: none;
-  padding: 0;
-}
-
-.menu li {
-  padding: 10px 0;
-  cursor: pointer;
-  border-bottom: 1px dashed #aaa;
-}
-
-.menu li:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.main {
-  flex-grow: 1;
-  padding: 30px;
-  background-color: rgba(255, 255, 255, 0.85);
-  overflow-y: auto;
-}
-
-.test-question {
-  margin-bottom: 20px;
-  padding: 10px;
-  border-left: 5px solid #0077cc;
-  background-color: #eef5ff;
-}
-
-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #0077cc;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button:hover {
-  background-color: #005fa3;
+function loadMixed() {
+  alert("Aralash test hali qo‘shilmagan.");
 }
