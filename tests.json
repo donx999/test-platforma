@@ -1,45 +1,92 @@
 {
-  "5-sinf": {
+  "5": {
     "Geografiya": {
-      "1": [
+      "Mavzu 1": [
         {
-          "savol": "O'zbekiston poytaxti qaysi shahar?",
-          "javoblar": ["Samarqand", "Toshkent", "Buxoro", "Namangan"],
+          "savol": "Yer qaysi shaklda?",
+          "javoblar": ["To‘g‘ri to‘rtburchak", "Sharning shaklida", "Tog‘ shaklida", "Silindr shaklida"],
           "togrisi": 1
         },
         {
-          "savol": "Eng uzun daryo qaysi?",
-          "javoblar": ["Amudaryo", "Sirdaryo", "Nehir", "Volga"],
+          "savol": "Eng uzun daryo nomi nima?",
+          "javoblar": ["Nil", "Amazonka", "Sirdaryo", "Volga"],
           "togrisi": 0
         }
       ],
-      "2": [
+      "Mavzu 2": [
         {
-          "savol": "Dunyo qit’alarining soni nechta?",
-          "javoblar": ["5", "6", "7", "8"],
-          "togrisi": 2
+          "savol": "O‘zbekiston poytaxti qayer?",
+          "javoblar": ["Toshkent", "Samarqand", "Buxoro", "Namangan"],
+          "togrisi": 0
         }
       ]
-    },
-    "Matematika": {
-      "1": [
+    }
+  },
+  "6": {
+    "Geografiya": {
+      "Mavzu 1": [
         {
-          "savol": "2 + 2 = ?",
-          "javoblar": ["3", "4", "5", "6"],
+          "savol": "Atmosfera qaysi qatlamdan iborat?",
+          "javoblar": ["Troposfera", "Stratosfera", "Mezosfera", "Ionosfera"],
+          "togrisi": 0
+        }
+      ]
+    }
+  },
+  "7": {
+    "Geografiya": {
+      "Mavzu 1": [
+        {
+          "savol": "Qaysi okean eng katta?",
+          "javoblar": ["Atlantika", "Tinch", "Hind", "Shimoliy muz okeani"],
           "togrisi": 1
         }
       ]
     }
   },
-  "6-sinf": {
+  "8": {
     "Geografiya": {
-      "1": [
+      "Mavzu 1": [
         {
-          "savol": "Yer qaysi qatlamdan tashkil topgan?",
-          "javoblar": ["Atmosfera", "Magnetosfera", "Litosfera", "Biosfera"],
-          "togrisi": 2
+          "savol": "Qaysi qit’a eng kichigi?",
+          "javoblar": ["Antarktida", "Avstraliya", "Evropa", "Afrika"],
+          "togrisi": 1
+        }
+      ]
+    }
+  },
+  "9": {
+    "Geografiya": {
+      "Mavzu 1": [
+        {
+          "savol": "Qaysi tog‘ tizmasi eng uzun?",
+          "javoblar": ["Alpomayo", "And", "Gimalaya", "Qorabog‘"],
+          "togrisi": 1
+        }
+      ]
+    }
+  },
+  "10": {
+    "Geografiya": {
+      "Mavzu 1": [
+        {
+          "savol": "Okeanlar sathining o‘rtacha harorati nechchi daraja?",
+          "javoblar": ["5°C", "15°C", "25°C", "35°C"],
+          "togrisi": 1
+        }
+      ]
+    }
+  },
+  "11": {
+    "Geografiya": {
+      "Mavzu 1": [
+        {
+          "savol": "O‘zbekistonning eng baland cho‘qqisi qaysi?",
+          "javoblar": ["Xazret Sovut", "Chimtarga", "Adyrcha", "Oybek"],
+          "togrisi": 0
         }
       ]
     }
   }
 }
+
