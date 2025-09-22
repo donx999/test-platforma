@@ -1,92 +1,19 @@
 {
-  "5": {
-    "Geografiya": {
-      "Mavzu 1": [
-        {
-          "savol": "Yer qaysi shaklda?",
-          "javoblar": ["To‘g‘ri to‘rtburchak", "Sharning shaklida", "Tog‘ shaklida", "Silindr shaklida"],
-          "togrisi": 1
-        },
-        {
-          "savol": "Eng uzun daryo nomi nima?",
-          "javoblar": ["Nil", "Amazonka", "Sirdaryo", "Volga"],
-          "togrisi": 0
-        }
-      ],
-      "Mavzu 2": [
-        {
-          "savol": "O‘zbekiston poytaxti qayer?",
-          "javoblar": ["Toshkent", "Samarqand", "Buxoro", "Namangan"],
-          "togrisi": 0
-        }
-      ]
-    }
-  },
-  "6": {
-    "Geografiya": {
-      "Mavzu 1": [
-        {
-          "savol": "Atmosfera qaysi qatlamdan iborat?",
-          "javoblar": ["Troposfera", "Stratosfera", "Mezosfera", "Ionosfera"],
-          "togrisi": 0
-        }
-      ]
-    }
-  },
   "7": {
     "Geografiya": {
-      "Mavzu 1": [
+      "Geografiya fani haqida tushuncha": [
         {
-          "savol": "Qaysi okean eng katta?",
-          "javoblar": ["Atlantika", "Tinch", "Hind", "Shimoliy muz okeani"],
+          "savol": "Geografiya fani neni o‘rganadi?",
+          "javoblar": [
+            "Yulduzlar harakatini",
+            "Yer yuzasidagi tabiiy va ijtimoiy hodisalarni",
+            "Matematik formulalarni",
+            "Tarixiy voqealarni"
+          ],
           "togrisi": 1
         }
-      ]
-    }
-  },
-  "8": {
-    "Geografiya": {
-      "Mavzu 1": [
-        {
-          "savol": "Qaysi qit’a eng kichigi?",
-          "javoblar": ["Antarktida", "Avstraliya", "Evropa", "Afrika"],
-          "togrisi": 1
-        }
-      ]
-    }
-  },
-  "9": {
-    "Geografiya": {
-      "Mavzu 1": [
-        {
-          "savol": "Qaysi tog‘ tizmasi eng uzun?",
-          "javoblar": ["Alpomayo", "And", "Gimalaya", "Qorabog‘"],
-          "togrisi": 1
-        }
-      ]
-    }
-  },
-  "10": {
-    "Geografiya": {
-      "Mavzu 1": [
-        {
-          "savol": "Okeanlar sathining o‘rtacha harorati nechchi daraja?",
-          "javoblar": ["5°C", "15°C", "25°C", "35°C"],
-          "togrisi": 1
-        }
-      ]
-    }
-  },
-  "11": {
-    "Geografiya": {
-      "Mavzu 1": [
-        {
-          "savol": "O‘zbekistonning eng baland cho‘qqisi qaysi?",
-          "javoblar": ["Xazret Sovut", "Chimtarga", "Adyrcha", "Oybek"],
-          "togrisi": 0
-        }
+        // Yana testlar shu yerda davom etadi...
       ]
     }
   }
 }
-
