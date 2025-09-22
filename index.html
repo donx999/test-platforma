@@ -2,279 +2,116 @@
 <html lang="uz">
 <head>
   <meta charset="UTF-8" />
-  <title>Test Platforma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geografiya Test Platformasi</title>
   <style>
-    /* Umumiy tana */
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      padding: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      font-family: 'Segoe UI', sans-serif;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      transition: background-color 0.5s ease;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    /* Kirish oynasi */
-    #login {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 40px 50px;
-      border-radius: 15px;
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      width: 320px;
+    /* Chap menyu */
+    .sidebar {
+      width: 250px;
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+    }
+
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 30px;
       text-align: center;
     }
 
-    #login h2 {
-      margin-bottom: 25px;
-      font-weight: 700;
-      font-size: 24px;
-      letter-spacing: 1.2px;
-    }
-
-    #loginForm input {
+    .menu-btn {
+      display: block;
       width: 100%;
-      padding: 12px 15px;
-      margin: 10px 0;
-      border-radius: 8px;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      background-color: #34495e;
       border: none;
-      outline: none;
+      color: white;
       font-size: 16px;
-    }
-
-    #loginForm button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px 0;
-      font-size: 18px;
-      background: #845ec2;
-      border: none;
-      border-radius: 10px;
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    #loginForm button:hover {
-      background: #d65db1;
-    }
-
-    /* Menyu va boshqa bloklar */
-    #menu {
-      display: none;
-      max-width: 600px;
-      width: 90vw;
-      background: white;
-      color: black;
-      border-radius: 15px;
-      padding: 25px 30px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    #menu h2#welcome {
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    #sinflarDiv button,
-    #fanlarDiv button {
-      margin: 8px;
-      padding: 12px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
-      border-radius: 10px;
-      background-color: #667eea;
-      color: white;
-      transition: background-color 0.3s ease;
-    }
-    #sinflarDiv button:hover,
-    #fanlarDiv button:hover {
-      background-color: #845ec2;
-    }
-
-    /* Sinflar fon ranglari */
-    .sinflar-5 { background-color: #f9f9a1; }
-    .sinflar-6 { background-color: #a1f9a1; }
-    .sinflar-7 { background-color: #a1d8f9; }
-    .sinflar-8 { background-color: #f9a1a1; }
-    .sinflar-9 { background-color: #d6a1f9; }
-    .sinflar-10 { background-color: #f9d6a1; }
-    .sinflar-11 { background-color: #a1f9d6; }
-
-    /* Tugmalar: ortga va telegram */
-    button.backBtn, a.telegramBtn {
-      margin-top: 20px;
-      padding: 12px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 8px;
-      text-decoration: none;
-      display: inline-block;
-      transition: background-color 0.3s ease;
-    }
-    button.backBtn {
-      background-color: #f08080;
-      color: white;
-      border: none;
-      margin-right: 15px;
-    }
-    button.backBtn:hover {
-      background-color: #d65b5b;
-    }
-    a.telegramBtn {
-      background-color: #0088cc;
-      color: white;
-    }
-    a.telegramBtn:hover {
-      background-color: #006699;
-    }
-
-    /* Bo‘limlar yashirish */
-    #sinflarDiv, #fanlarDiv, #contentDiv {
-      margin-top: 10px;
-    }
-
-    #fanlarDiv, #contentDiv {
-      display: none;
-    }
-
-    #contentInner {
-      margin-top: 10px;
       text-align: left;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: 0.3s;
+    }
+
+    .menu-btn:hover {
+      background-color: #1abc9c;
+    }
+
+    /* Kontent (xarita fon) */
+    .content {
+      flex-grow: 1;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/World_map_blank_without_borders.svg/2000px-World_map_blank_without_borders.svg.png');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .welcome {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: rgba(255,255,255,0.8);
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-  <!-- Kirish oynasi -->
-  <div id="login">
-    <h2>Ismingiz va familiyangizni kiriting</h2>
-    <form id="loginForm">
-      <input type="text" id="ism" placeholder="Ism" required />
-      <input type="text" id="familiya" placeholder="Familiya" required />
-      <button type="submit">Kirish</button>
-    </form>
+  <div class="sidebar">
+    <h2>Doniyor Ochildiyev</h2>
+    <button class="menu-btn" onclick="changeTheme('sinf7')">7-sinf</button>
+    <button class="menu-btn" onclick="changeTheme('sinf8')">8-sinf</button>
+    <button class="menu-btn" onclick="changeTheme('sinf9')">9-sinf</button>
+    <button class="menu-btn" onclick="changeTheme('sinf10')">10-sinf</button>
+    <button class="menu-btn" onclick="changeTheme('sinf11')">11-sinf</button>
+    <button class="menu-btn" onclick="changeTheme('aralash')">Aralash test</button>
+    <button class="menu-btn" onclick="changeTheme('attestatsiya')">Attestatsiya test</button>
+    <button class="menu-btn" onclick="changeTheme('milliy')">Milliy sertifikat</button>
+    <button class="menu-btn" onclick="changeTheme('bsb')">BSB / CHSB testlari</button>
+    <button class="menu-btn" onclick="changeTheme('davlatlar')">Dunyo davlatlari</button>
+    <button class="menu-btn" onclick="changeTheme('poytaxt')">Davlatlar va poytaxtlari</button>
   </div>
 
-  <!-- Asosiy menyu -->
-  <div id="menu" style="display:none; flex-direction: column;">
-    <h2 id="welcome"></h2>
-
-    <!-- Sinflar -->
-    <div id="sinflarDiv">
-      <h3>Sinflarni tanlang:</h3>
-      <button data-sinf="5">5-sinf</button>
-      <button data-sinf="6">6-sinf</button>
-      <button data-sinf="7">7-sinf</button>
-      <button data-sinf="8">8-sinf</button>
-      <button data-sinf="9">9-sinf</button>
-      <button data-sinf="10">10-sinf</button>
-      <button data-sinf="11">11-sinf</button>
-    </div>
-
-    <!-- Fanlar -->
-    <div id="fanlarDiv">
-      <h3>Fanlar:</h3>
-      <button id="geografiyaBtn">Geografiya</button>
-      <div>
-        <button class="backBtn" id="backToSinflar">Ortga</button>
-        <a href="https://t.me/Geografiya_attestatsiya1" target="_blank" class="telegramBtn">Telegram kanalga qo‘shilish</a>
-      </div>
-    </div>
-
-    <!-- Testlar yoki kontent -->
-    <div id="contentDiv">
-      <div id="contentInner"></div>
-      <div>
-        <button class="backBtn" id="backToFanlar">Ortga</button>
-        <a href="https://t.me/Geografiya_attestatsiya1" target="_blank" class="telegramBtn">Telegram kanalga qo‘shilish</a>
-      </div>
-    </div>
-
+  <div class="content" id="mainContent">
+    <div class="welcome" id="welcomeText">Bo‘lim tanlang...</div>
   </div>
 
-<script>
-  const loginDiv = document.getElementById('login');
-  const menuDiv = document.getElementById('menu');
-  const welcomeH2 = document.getElementById('welcome');
+  <script>
+    // Dizayn o‘zgartirish uchun
+    function changeTheme(bolim) {
+      const welcome = document.getElementById('welcomeText');
+      const content = document.getElementById('mainContent');
 
-  const sinflarDiv = document.getElementById('sinflarDiv');
-  const fanlarDiv = document.getElementById('fanlarDiv');
-  const contentDiv = document.getElementById('contentDiv');
-  const contentInner = document.getElementById('contentInner');
+      const dizaynlar = {
+        sinf7: "#e74c3c",
+        sinf8: "#3498db",
+        sinf9: "#f1c40f",
+        sinf10: "#2ecc71",
+        sinf11: "#9b59b6",
+        aralash: "#1abc9c",
+        attestatsiya: "#e67e22",
+        milliy: "#16a085",
+        bsb: "#34495e",
+        davlatlar: "#95a5a6",
+        poytaxt: "#c0392b"
+      };
 
-  const backToSinflarBtn = document.getElementById('backToSinflar');
-  const backToFanlarBtn = document.getElementById('backToFanlar');
-
-  const geografiyaBtn = document.getElementById('geografiyaBtn');
-
-  let tanlanganSinf = null;
-
-  document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const ism = document.getElementById('ism').value.trim();
-    const familiya = document.getElementById('familiya').value.trim();
-
-    if (ism && familiya) {
-      welcomeH2.textContent = `Xush kelibsiz, ${ism} ${familiya}!`;
-      loginDiv.style.display = 'none';
-      menuDiv.style.display = 'flex';
-      sinflarDiv.style.display = 'block';
-      fanlarDiv.style.display = 'none';
-      contentDiv.style.display = 'none';
-      document.body.className = ''; // kirishdagi fonni olib tashlash
+      content.style.backgroundColor = dizaynlar[bolim];
+      welcome.innerText = `Siz ${bolim.replace(/_/g, ' ')} bo‘limidasiz`;
     }
-  });
-
-  // Sinf tugmalari
-  sinflarDiv.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      tanlanganSinf = btn.getAttribute('data-sinf');
-      // Orqa fon rangini o'zgartirish
-      document.body.className = '';
-      document.body.classList.add(`sinflar-${tanlanganSinf}`);
-
-      // Menyularni ko'rsatish va yashirish
-      sinflarDiv.style.display = 'none';
-      fanlarDiv.style.display = 'block';
-      contentDiv.style.display = 'none';
-      contentInner.innerHTML = '';
-    });
-  });
-
-  // Geografiya tugmasi
-  geografiyaBtn.addEventListener('click', () => {
-    fanlarDiv.style.display = 'none';
-    contentDiv.style.display = 'block';
-
-    // Bu yerda testlar qo‘shiladi hozircha placeholder
-    contentInner.innerHTML = '<h3>Geografiya fanining testlari tez orada qo‘shiladi.</h3>';
-  });
-
-  // Ortga tugmalari
-  backToSinflarBtn.addEventListener('click', () => {
-    fanlarDiv.style.display = 'none';
-    contentDiv.style.display = 'none';
-    sinflarDiv.style.display = 'block';
-    contentInner.innerHTML = '';
-    document.body.className = '';
-  });
-
-  backToFanlarBtn.addEventListener('click', () => {
-    contentDiv.style.display = 'none';
-    fanlarDiv.style.display = 'block';
-    contentInner.innerHTML = '';
-  });
-</script>
+  </script>
 
 </body>
 </html>
